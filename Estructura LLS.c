@@ -40,9 +40,8 @@ int main()
     printf("_____________________________________________________________________________\n\n");
     int opcion_menu=menu_general();
     while(opcion_menu!=6){
-        printf("_____________________________________________________________________________\n\n");
         switch(opcion_menu){
-            case 1: printf("Ingrese valor del nuevo nodo: ");
+            case 1: printf("\nIngrese valor del nuevo nodo: ");
                     scanf("%d",&input);
                     enlace nuevo_nodo = CrearNodo(input);
                     switch(menu_insertar()){
@@ -55,6 +54,7 @@ int main()
                                 InsertarPosicionX(&Cabecera,input,nuevo_nodo);
                         break;
                     }
+                    printf("\n"); Imprimir(Cabecera);
             break;
             case 2: Imprimir(Cabecera);
             break;
@@ -70,6 +70,7 @@ int main()
                                 Eliminar_PosicionX(&Cabecera,input);
                         break;
                     }
+                    printf("\n"); Imprimir(Cabecera);
             break;
             case 4: switch(menu_cantidad()){
                         case 1: printf("\nLargo de la LLS: %d\n",Largo(Cabecera));
@@ -81,7 +82,7 @@ int main()
                         break;
                     }
             break;
-            case 5: 
+            case 5: printf("\n"); Imprimir(Cabecera);
                     printf("Valor de los nodos a buscar: ");
                     scanf("%d",&input);
                     int cantidad_nodos=CantidadNodos_InfoX(Cabecera,input);
