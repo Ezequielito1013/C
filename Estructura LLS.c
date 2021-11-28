@@ -213,7 +213,7 @@ enlace CrearNodo(int valor){
     return nuevo_nodo; 
 }
 
-/* Funciones que ingresan un nuevo nodo AL INICIO y AL FINAL de la lista */
+/* Funciones que ingresan un nuevo nodo a la lista */
 void InsertarInicio(enlace * C,enlace nodo){ // Ojo: C es un puntero a un puntero
     /* Chequeamos si la LLS está vacía, en cuyo caso Cabecera pasa a apuntar a nuevo nodo */
     if(*C == NULL){
@@ -236,6 +236,34 @@ void InsertarFinal(enlace * C,enlace nodo){
     }
     aux->siguiente=nodo;
     nodo->siguiente=NULL;
+}
+void InsertarPosicionX(enlace *C,int n,enlace nodo){
+    if(*C==NULL){ //En caso de que la LLS esté vacía, rellena la LLS con nodos de info=0 hasta incorporar el nuevo nodo en la posición que corresponde
+        for(int i=1;i<n;i++)
+            InsertarFinal(C,CrearNodo(0));
+        InsertarFinal(C,nodo);
+        return;
+    }
+    if(n==1){ //En caso de que se quiera insertar el nodo en la primera posición de la LLS.
+        nodo->siguiente=*C;
+        *C=nodo;
+        if(nodo->siguiente->info==0) //Si inserta una posición ocupada por un "relleno" (info 0), el nuevo nodo lo reemplaza, para así mantener la posición de nodos posteriores.
+            Eliminar_InfoX(C,0,1);
+        return;
+    }
+    if(Largo_Recursivo(*C)<n){ //
+        while(Largo_Recursivo(*C)<n-1){
+            InsertarFinal(C,CrearNodo(0));
+        }
+        InsertarFinal(C,nodo);
+        return;
+    }
+    enlace aux=*C;
+    for(int i=1;i<n-1;i++)
+        aux=aux->siguiente;
+    nodo->siguiente=aux->siguiente;
+    aux->siguiente=nodo;
+    Eliminar_InfoX(&nodo,0,1); //Si inserta una posición ocupada por un "relleno" (info 0), el nuevo nodo lo reemplaza, para así mantener la posición de nodos posteriores.
 }
 
 /* Función que recorre de principio a fin la lista e imprime en consola el dato info */
@@ -316,36 +344,6 @@ int CantidadNodos_InfoX(enlace C,int X){
     if(C->info==X)
         cont++;
     return cont + CantidadNodos_InfoX(C->siguiente,X);
-}
-
-/* Función que ingresa un nuevo nodo en la n-ésima posición */
-void InsertarPosicionX(enlace *C,int n,enlace nodo){
-    if(*C==NULL){ //En caso de que la LLS esté vacía, rellena la LLS con nodos de info=0 hasta incorporar el nuevo nodo en la posición que corresponde
-        for(int i=1;i<n;i++)
-            InsertarFinal(C,CrearNodo(0));
-        InsertarFinal(C,nodo);
-        return;
-    }
-    if(n==1){ //En caso de que se quiera insertar el nodo en la primera posición de la LLS.
-        nodo->siguiente=*C;
-        *C=nodo;
-        if(nodo->siguiente->info==0) //Si inserta una posición ocupada por un "relleno" (info 0), el nuevo nodo lo reemplaza, para así mantener la posición de nodos posteriores.
-            Eliminar_InfoX(C,0,1);
-        return;
-    }
-    if(Largo_Recursivo(*C)<n){ //
-        while(Largo_Recursivo(*C)<n-1){
-            InsertarFinal(C,CrearNodo(0));
-        }
-        InsertarFinal(C,nodo);
-        return;
-    }
-    enlace aux=*C;
-    for(int i=1;i<n-1;i++)
-        aux=aux->siguiente;
-    nodo->siguiente=aux->siguiente;
-    aux->siguiente=nodo;
-    Eliminar_InfoX(&nodo,0,1); //Si inserta una posición ocupada por un "relleno" (info 0), el nuevo nodo lo reemplaza, para así mantener la posición de nodos posteriores.
 }
 
 /* Funciones que Buscan un nodo */
