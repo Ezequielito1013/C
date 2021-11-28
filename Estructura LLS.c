@@ -33,16 +33,10 @@ void GenerarListaImpar(enlace*,enlace*);
 void GenerarListaPar(enlace*,enlace*);
 
 int main()
-{   
-    printf("Creacion de una LLS\n\n");
+{
     /* Esta es la declaración de la Cabecera a la LLS. Inicialmente está apuntando a nada */
     enlace Cabecera = NULL;
     int input,delete;
-    /* Genero un nuevo nodo que estará apuntado por nuevo_nodo*/
-    printf("Ingrese valor del nuevo nodo: ");
-    scanf("%d",&input);
-    enlace nuevo_nodo = CrearNodo(input);
-    InsertarFinal(&Cabecera,nuevo_nodo);
     printf("_____________________________________________________________________________\n\n");
     int opcion_menu=menu_general();
     while(opcion_menu!=6){
