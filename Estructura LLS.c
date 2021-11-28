@@ -11,34 +11,50 @@ typedef struct nodo{
     struct nodo * siguiente; 
 } t_nodo,*enlace;
 
-/* prototipos */
+/* Menus */
 int menu_general();
 int menu_insertar();
 int menu_eliminar();
 int menu_cantidad();
+int menu_clonar();
+
+/* Creación de nodos */
 enlace CrearNodo(int);
 void InsertarInicio (enlace*,enlace);
 void InsertarFinal(enlace*,enlace);
 void InsertarPosicionX(enlace*,int,enlace);
+
 void Imprimir(enlace);
+
+/* Eliminación de nodos */
 void Eliminar_InfoX(enlace*,int,int);
 void Eliminar_PosicionX(enlace*,int);
+
+/* Cantidad de nodos */
 int Largo(enlace);
 int Largo_Recursivo(enlace);
 int CantidadNodos_InfoX(enlace,int);
+
+/* Buscar nodos */
 enlace Buscar(enlace,int);
 enlace BuscarRecursivo(enlace,int);
 void BuscarPosiciones(enlace*,int,int*);
+
+/* Copia con nodos de ciertas caracteristicas */
 void GenerarListaImpar(enlace*,enlace*);
 void GenerarListaPar(enlace*,enlace*);
+
+/* Elimina todos los nodos */
+void FormatearLLS(enlace*);
 
 int main()
 {
     /* Esta es la declaración de la Cabecera a la LLS. Inicialmente está apuntando a nada */
     enlace Cabecera = NULL;
+    enlace LLS_clon=NULL;
     int input,delete;
     int opcion_menu=1;
-    while(opcion_menu!=6){
+    while(opcion_menu!=8){
         printf("_____________________________________________________________________________\n\n");
         opcion_menu=menu_general();
         switch(opcion_menu){
@@ -96,7 +112,21 @@ int main()
                     }else
                         printf("\nNo se encontro nodo con info %d ...\n",input);
             break;
-            case 6: printf("_____________________________________________________________________________\n\n");
+            case 6: switch(menu_clonar()){
+                        case 1: printf("\nLLS Original: "); Imprimir(Cabecera);
+                                GenerarListaPar(&Cabecera,&LLS_clon);
+                                printf("\nLLS Clon: "); Imprimir(LLS_clon);
+                        break;
+                        case 2: printf("\nLLS Original: "); Imprimir(Cabecera);
+                                GenerarListaImpar(&Cabecera,&LLS_clon);
+                                printf("\nLLS Clon: "); Imprimir(LLS_clon);
+                        break;
+                    }
+            break;
+            case 7: FormatearLLS(&Cabecera);
+                    printf("\nLa lista se ha vaciado...\n");
+            break;
+            case 8: printf("_____________________________________________________________________________\n\n");
                     printf("Saliendo del programa...\n");
             break;
             default: printf("\nOpcion ingresada invalida. Intentelo Nuevamente...\n");
@@ -116,12 +146,16 @@ int menu_general(){
     printf("3) Eliminar nodo\n");
     printf("4) Cantidad de nodos en la LLS\n");
     printf("5) Buscar posicion de un nodo\n");
-    printf("6) Salir\n");
+    printf("6) Clonar Lista\n");
+    printf("7) Formatear LLS\n");
+    printf("8) Salir\n");
     
     printf("\nSelecione una opcion: ");
     scanf("%d",&opcion_menu);
     return opcion_menu;
 }
+
+/* MENUS */
 int menu_insertar(){
     int opcion_menu;
     printf("\n1) Insertar nuevo nodo al Inicio\n");
@@ -159,33 +193,15 @@ int menu_buscar(){
     scanf("%d",&opcion_menu);
     return opcion_menu;
 }
+int menu_clonar(){
+    int opcion_menu;
+    printf("\n1) Clonar lista con nodos de informacion par\n");
+    printf("2) Clonar lista con nodos de informacion impar\n");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    printf("\nSelecione una opcion: ");
+    scanf("%d",&opcion_menu);
+    return opcion_menu;
+}
 
 /* Función que recibe un int y retorna un nodo conteniendo dicho int */
 enlace CrearNodo(int valor){
@@ -365,7 +381,19 @@ void BuscarPosiciones(enlace *C,int X,int *arreglo){
 }
 
 /* Función que genera una LLS copia con nodos de ciertas caracteristicas */
+void GenerarListaPar(enlace *C,enlace *LLS_Copia){
+    FormatearLLS(LLS_Copia);
+    enlace aux=*C;
+    for(int i=0;i<Largo_Recursivo(*C);i++){ //Recorremos toda la LLS original
+        if(aux->info%2==0){
+            enlace copia_nodo=CrearNodo(aux->info);
+            InsertarFinal(LLS_Copia,copia_nodo);
+        }
+        aux=aux->siguiente;
+    }
+}
 void GenerarListaImpar(enlace *C,enlace *LLS_Copia){
+    FormatearLLS(LLS_Copia);
     enlace aux=*C;
     for(int i=0;i<Largo_Recursivo(*C);i++){ //Recorremos toda la LLS original
         if(aux->info%2==1){
@@ -375,13 +403,12 @@ void GenerarListaImpar(enlace *C,enlace *LLS_Copia){
         aux=aux->siguiente;
     }
 }
-void GenerarListaPar(enlace *C,enlace *LLS_Copia){
-    enlace aux=*C;
-    for(int i=0;i<Largo_Recursivo(*C);i++){ //Recorremos toda la LLS original
-        if(aux->info%2==0){
-            enlace copia_nodo=CrearNodo(aux->info);
-            InsertarFinal(LLS_Copia,copia_nodo);
-        }
-        aux=aux->siguiente;
+
+/* Función que formatea una LLS*/
+void FormatearLLS(enlace *C){
+    while(*C!=NULL){
+        enlace basura=*C;
+        *C=(*C)->siguiente;
+        free(basura);
     }
 }
