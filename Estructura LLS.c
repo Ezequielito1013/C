@@ -37,9 +37,10 @@ int main()
     /* Esta es la declaración de la Cabecera a la LLS. Inicialmente está apuntando a nada */
     enlace Cabecera = NULL;
     int input,delete;
-    printf("_____________________________________________________________________________\n\n");
-    int opcion_menu=menu_general();
+    int opcion_menu=1;
     while(opcion_menu!=6){
+        printf("_____________________________________________________________________________\n\n");
+        opcion_menu=menu_general();
         switch(opcion_menu){
             case 1: printf("\nIngrese valor del nuevo nodo: ");
                     scanf("%d",&input);
@@ -56,7 +57,7 @@ int main()
                     }
                     printf("\n"); Imprimir(Cabecera);
             break;
-            case 2: Imprimir(Cabecera);
+            case 2: printf("\n"); Imprimir(Cabecera);
             break;
             case 3: switch(menu_eliminar()){
                         case 1: printf("\nInformacion que quiere eliminar: ");
@@ -83,7 +84,7 @@ int main()
                     }
             break;
             case 5: printf("\n"); Imprimir(Cabecera);
-                    printf("Valor de los nodos a buscar: ");
+                    printf("\nValor de los nodos a buscar: ");
                     scanf("%d",&input);
                     int cantidad_nodos=CantidadNodos_InfoX(Cabecera,input);
                     if(cantidad_nodos!=0){
@@ -94,9 +95,13 @@ int main()
                         printf("\n");
                     }else
                         printf("\nNo se encontro nodo con info %d ...\n",input);
+            break;
+            case 6: printf("_____________________________________________________________________________\n\n");
+                    printf("Saliendo del programa...\n");
+            break;
+            default: printf("\nOpcion ingresada invalida. Intentelo Nuevamente...\n");
+            break;
         }
-        printf("_____________________________________________________________________________\n\n");
-        opcion_menu=menu_general();
     }
  
     return 0;
@@ -129,7 +134,7 @@ int menu_insertar(){
 }
 int menu_eliminar(){
     int opcion_menu;
-    printf("1) Eliminar nodo con info X\n");
+    printf("\n1) Eliminar nodo con info X\n");
     printf("2) Eliminar nodo en Posicion X\n");
     
     printf("\nSelecione una opcion: ");
@@ -138,7 +143,7 @@ int menu_eliminar(){
 }
 int menu_cantidad(){
     int opcion_menu;
-    printf("1) Cantidad total de nodos\n");
+    printf("\n1) Cantidad total de nodos\n");
     printf("2) Cantidad de nodos con info X\n");
     
     printf("\nSelecione una opcion: ");
