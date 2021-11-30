@@ -23,6 +23,7 @@ enlace CrearNodo(int);
 void InsertarInicio (enlace*,enlace);
 void InsertarFinal(enlace*,enlace);
 void InsertarPosicionX(enlace*,int,enlace);
+void InsertarAcendente(enlace*,enlace);
 
 void Imprimir(enlace);
 
@@ -71,6 +72,8 @@ int main()
                         case 3: printf("\nIngrese posicion del nuevo nodo: ");
                                 scanf("%d",&input);
                                 InsertarPosicionX(&Cabecera,input,nuevo_nodo);
+                        break;
+                        case 4: InsertarAcendente(&Cabecera,nuevo_nodo);
                         break;
                     }
                     printf("\n"); Imprimir(Cabecera);
@@ -167,6 +170,7 @@ int menu_insertar(){
     printf("\n1) Insertar nuevo nodo al Inicio\n");
     printf("2) Insertar nuevo nodo al Final\n");
     printf("3) Insertar nuevo nodo en Posicion X\n");
+    printf("4) Insertar nuevo nodo en orden acendente\n");
     
     printf("\nSelecione una opcion: ");
     scanf("%d",&opcion_menu);
@@ -270,6 +274,27 @@ void InsertarPosicionX(enlace *C,int n,enlace nodo){
     nodo->siguiente=aux->siguiente;
     aux->siguiente=nodo;
     Eliminar_InfoX(&nodo,0,1); //Si inserta una posición ocupada por un "relleno" (info 0), el nuevo nodo lo reemplaza, para así mantener la posición de nodos posteriores.
+}
+void InsertarAcendente(enlace *C,enlace nodo){
+    if(*C==NULL){
+        *C=nodo;
+        return;
+    }
+    if(nodo->info<(*C)->info){
+        nodo->siguiente=*C;
+        *C=nodo;
+        return;
+    }
+    enlace aux=*C;
+    while(aux->siguiente!=NULL){
+        if(aux->info<nodo->info && (aux->siguiente)->info>nodo->info){
+            nodo->siguiente=aux->siguiente;
+            aux->siguiente=nodo;
+            return;
+        }
+        aux=aux->siguiente;
+    }
+    aux->siguiente=nodo;
 }
 
 /* Función que recorre de principio a fin la lista e imprime en consola el dato info */
