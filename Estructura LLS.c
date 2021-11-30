@@ -47,6 +47,8 @@ void GenerarListaPar(enlace*,enlace*);
 /* Elimina todos los nodos */
 void FormatearLLS(enlace*);
 
+void InvertirSentidoLLS(enlace*);
+
 int main()
 {
     /* Esta es la declaración de la Cabecera a la LLS. Inicialmente está apuntando a nada */
@@ -54,7 +56,7 @@ int main()
     enlace LLS_clon=NULL;
     int input,delete;
     int opcion_menu=1;
-    while(opcion_menu!=8){
+    while(opcion_menu!=9){
         printf("_____________________________________________________________________________\n\n");
         opcion_menu=menu_general();
         switch(opcion_menu){
@@ -123,10 +125,13 @@ int main()
                         break;
                     }
             break;
-            case 7: FormatearLLS(&Cabecera);
+            case 7: InvertirSentidoLLS(&Cabecera);
+                    printf("\n"); Imprimir(Cabecera);
+            break;
+            case 8: FormatearLLS(&Cabecera);
                     printf("\nLa lista se ha vaciado...\n");
             break;
-            case 8: printf("_____________________________________________________________________________\n\n");
+            case 9: printf("_____________________________________________________________________________\n\n");
                     printf("Saliendo del programa...\n");
             break;
             default: printf("\nOpcion ingresada invalida. Intentelo Nuevamente...\n");
@@ -147,8 +152,9 @@ int menu_general(){
     printf("4) Cantidad de nodos en la LLS\n");
     printf("5) Buscar posicion de un nodo\n");
     printf("6) Clonar Lista\n");
-    printf("7) Formatear LLS\n");
-    printf("8) Salir\n");
+    printf("7) Invertir Lista\n");
+    printf("8) Formatear LLS\n");
+    printf("9) Salir\n");
     
     printf("\nSelecione una opcion: ");
     scanf("%d",&opcion_menu);
@@ -409,4 +415,16 @@ void FormatearLLS(enlace *C){
         *C=(*C)->siguiente;
         free(basura);
     }
+}
+
+/* Implementar una función que invierta el sentido de los enlaces de una LLS "L" de largo mayor que 100. */
+void InvertirSentidoLLS(enlace *C){
+    enlace Next,Anterior=NULL;
+    while(*C!=NULL){
+        Next=(*C)->siguiente;
+        (*C)->siguiente=Anterior;
+        Anterior=*C;
+        *C=Next;
+    }
+    *C=Anterior;
 }
