@@ -25,6 +25,10 @@ void InsertarFinal(enlace*,enlace);
 void InsertarPosicionX(enlace*,int,enlace);
 void InsertarAcendente(enlace*,enlace);
 
+/* Transformaciones de Listas */
+void TransformarLCS(enlace*);
+void TransformarLLS(enlace*);
+
 void Imprimir(enlace);
 
 /* Eliminación de nodos */
@@ -296,6 +300,22 @@ void InsertarAcendente(enlace *C,enlace nodo){
         aux=aux->siguiente;
     }
     aux->siguiente=nodo;
+}
+void TransformarLCS(enlace *C){
+    if(*C==NULL)
+        return;
+    enlace aux=*C;
+    while(aux->siguiente!=NULL)
+        aux=aux->siguiente;
+    aux->siguiente=*C;
+}
+void TransformarLLS(enlace *C){
+    if(*C==NULL)
+        return;
+    enlace aux=*C;
+    while(aux->siguiente!=*C)
+        aux=aux->siguiente;
+    aux->siguiente=NULL;
 }
 
 /* Función que recorre de principio a fin la lista e imprime en consola el dato info */
