@@ -49,6 +49,7 @@ void GenerarListaPar(enlace*,enlace*);
 void FormatearLLS(enlace*);
 
 void InvertirSentidoLLS(enlace*);
+void OrdenarAcendente(enlace *C);
 
 int main()
 {
