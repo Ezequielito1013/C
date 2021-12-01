@@ -53,7 +53,8 @@ void GenerarListaPar(enlace*,enlace*);
 void FormatearLLS(enlace*);
 
 void InvertirSentidoLLS(enlace*);
-void OrdenarAcendente(enlace *C);
+void OrdenarAcendente(enlace*);
+void OrdenarAcendente2(enlace*);
 
 int main()
 {
@@ -66,6 +67,13 @@ int main()
         printf("_____________________________________________________________________________\n\n");
         opcion_menu=menu_general();
         switch(opcion_menu){
+            case -1:for(int i=0;i<5;i++){
+                        printf("\nIngrese valor del nuevo nodo: ");
+                        scanf("%d",&input);
+                        enlace nuevo_nodo = CrearNodo(input);
+                        InsertarFinal(&Cabecera,nuevo_nodo);
+                    }            
+            break;
             case 1: printf("\nIngrese valor del nuevo nodo: ");
                     scanf("%d",&input);
                     enlace nuevo_nodo = CrearNodo(input);
@@ -133,8 +141,14 @@ int main()
                         break;
                     }
             break;
-            case 7: InvertirSentidoLLS(&Cabecera);
-                    printf("\n"); Imprimir(Cabecera);
+            case 7: switch(menu_ordenar()){
+                        case 1: InvertirSentidoLLS(&Cabecera);
+                        break;
+                        case 2: OrdenarAcendente2(&Cabecera);
+                        break; 
+                    
+                    }  
+                    printf("\n"); Imprimir(Cabecera);                  
             break;
             case 8: FormatearLLS(&Cabecera);
                     printf("\nLa lista se ha vaciado...\n");
@@ -160,7 +174,7 @@ int menu_general(){
     printf("4) Cantidad de nodos en la LLS\n");
     printf("5) Buscar posicion de un nodo\n");
     printf("6) Clonar Lista\n");
-    printf("7) Invertir Lista\n");
+    printf("7) Ordenar Lista\n");
     printf("8) Formatear LLS\n");
     printf("9) Salir\n");
     
@@ -212,6 +226,15 @@ int menu_clonar(){
     int opcion_menu;
     printf("\n1) Clonar lista con nodos de informacion par\n");
     printf("2) Clonar lista con nodos de informacion impar\n");
+
+    printf("\nSelecione una opcion: ");
+    scanf("%d",&opcion_menu);
+    return opcion_menu;
+}
+int menu_ordenar(){
+    int opcion_menu;
+    printf("1) Invertir Lista\n");
+    printf("2) Ordenar de forma acendente\n");
 
     printf("\nSelecione una opcion: ");
     scanf("%d",&opcion_menu);
@@ -473,4 +496,40 @@ void InvertirSentidoLLS(enlace *C){
         *C=Next;
     }
     *C=Anterior;
+}
+void OrdenarAcendente(enlace *C){
+    if(*C==NULL)
+        return;
+    enlace aux=*C;
+    enlace info_menor=*C;
+    while(aux!=NULL){
+        if(info_menor->info>aux){
+
+        }
+        aux=aux->siguiente;
+    }
+
+}
+void OrdenarAcendente2(enlace *C){
+    if(*C==NULL)
+        return;
+        int largo=Largo(*C);
+    for(int i=0;i<largo;i++){
+        enlace aux=*C;
+        enlace info_menor=*C;
+        enlace Next=NULL;
+        enlace anterior=*C;        
+        for(int i=0;i<largo;i++){
+            printf("\n\nMenor: %d > Aux: %d",info_menor->info,aux->info);
+            if(info_menor->info>aux->info){
+                anterior=info_menor;
+                info_menor=aux;
+                printf("\n\nAnterior: %d y Menor: %d",anterior->info,info_menor->info);
+            }
+            aux=aux->siguiente;
+        }
+        Next=info_menor->siguiente;
+        info_menor->siguiente=*C;
+        anterior->siguiente=Next;
+    }
 }
