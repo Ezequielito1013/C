@@ -54,7 +54,7 @@ void FormatearLLS(enlace*);
 
 void InvertirSentidoLLS(enlace*);
 void OrdenarAcendente(enlace*);
-void OrdenarAcendente2(enlace*);
+void OrdenarAcendenteArreglo(enlace*);
 
 int main()
 {
@@ -144,7 +144,7 @@ int main()
             case 7: switch(menu_ordenar()){
                         case 1: InvertirSentidoLLS(&Cabecera);
                         break;
-                        case 2: OrdenarAcendente(&Cabecera);
+                        case 2: OrdenarAcendenteArreglo(&Cabecera);
                         break; 
                     
                     }  
@@ -497,44 +497,38 @@ void InvertirSentidoLLS(enlace *C){
     }
     *C=Anterior;
 }
-void OrdenarAcendente(enlace *C){    
-    if(*C==NULL)
+void OrdenarAcendenteArreglo(enlace *C){
+    if(*C==NULL || Largo(*C)==1)
         return;
     enlace Cabecera=*C;
-    int largo=Largo(*C),X=1,cont;
-    enlace antecesor_menor=NULL;
-    enlace Menor=NULL;
-    for(int i=0;i<largo-1;i++){   
-        cont=0;     
-        printf("\n\nIteración Nº%d",i+1);
-        printf("\nLinea 549\n");
+    enlace Menor_Anterior=CrearNodo(0);
+    int CONT=1,X=1,largo=Largo(*C);
+    while(CONT<largo){
         enlace aux=Cabecera;
-        Menor=Cabecera;
-        enlace anterior=Cabecera;
-        enlace Next=NULL;
-        printf("\nLinea 554 AUX: %d\n",aux->info);
-        while(aux!=NULL){ //Quitar siguiente
-            if(Menor->info>aux->info){
-                anterior=Menor;
-                Menor=aux;
+        enlace Menor=Cabecera;
+        enlace anterior=aux;    
+        int cont=0;
+        while(aux->siguiente!=NULL){
+            if(Menor->info>aux->siguiente->info){
+                anterior=aux;
+                Menor=aux->siguiente;
                 cont++;
             }
             aux=aux->siguiente;
         }
-        printf("\nLinea 561\n");
         if(X==1){
             *C=Menor;
-            antecesor_menor=Menor;
             X=-1;
         }
-        printf("\nLinea 565\n");
-        Next=Menor->siguiente;
-        anterior->siguiente=Next; 
-        if(cont==0)
-            Cabecera=Cabecera->siguiente;       
-        antecesor_menor->siguiente=Menor;
-        antecesor_menor=Menor;        
-        printf("\nLinea 570\n");
-    }
-    Menor->siguiente=Cabecera;
+        if(cont!=0){            
+            anterior->siguiente=Menor->siguiente;
+            Menor->siguiente=Cabecera;
+            Menor_Anterior->siguiente=Menor;
+            Menor_Anterior=Menor;
+        }else{
+            Cabecera=Cabecera->siguiente;
+            Menor_Anterior=Menor;
+        }            
+        CONT++;
+    }    
 }
