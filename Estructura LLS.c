@@ -54,7 +54,6 @@ void FormatearLLS(enlace*);
 
 void InvertirSentidoLLS(enlace*);
 void OrdenarAcendente(enlace*);
-void OrdenarAcendenteArreglo(enlace*);
 
 int main()
 {
@@ -144,7 +143,7 @@ int main()
             case 7: switch(menu_ordenar()){
                         case 1: InvertirSentidoLLS(&Cabecera);
                         break;
-                        case 2: OrdenarAcendenteArreglo(&Cabecera);
+                        case 2: OrdenarAcendente(&Cabecera);
                         break; 
                     
                     }  
@@ -497,7 +496,7 @@ void InvertirSentidoLLS(enlace *C){
     }
     *C=Anterior;
 }
-void OrdenarAcendenteArreglo(enlace *C){
+void OrdenarAcendente(enlace *C){
     if(*C==NULL || Largo(*C)==1)
         return;
     enlace Cabecera=*C;
