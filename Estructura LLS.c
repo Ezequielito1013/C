@@ -34,6 +34,7 @@ void Imprimir(enlace);
 /* Eliminación de nodos */
 void Eliminar_InfoX(enlace*,int,int);
 void Eliminar_PosicionX(enlace*,int);
+void Eliminar_PosicionPar(enlace *);
 
 /* Cantidad de nodos */
 int Largo(enlace);
@@ -103,6 +104,7 @@ int main()
                                 scanf("%d",&input);
                                 Eliminar_PosicionX(&Cabecera,input);
                         break;
+                        case 3: Eliminar_PosicionPar(&Cabecera);
                     }
                     printf("\n"); Imprimir(Cabecera);
             break;
@@ -198,6 +200,7 @@ int menu_eliminar(){
     int opcion_menu;
     printf("\n1) Eliminar nodo con info X\n");
     printf("2) Eliminar nodo en Posicion X\n");
+    printf("3) Eliminar nodo en Posicion Par\n");
     
     printf("\nSelecione una opcion: ");
     scanf("%d",&opcion_menu);
@@ -394,6 +397,26 @@ void Eliminar_PosicionX(enlace *C,int posicion){
     basura=aux->siguiente;
     aux->siguiente=aux->siguiente->siguiente;
     free(basura);   
+}
+void Eliminar_PosicionPar(enlace *C){   
+    enlace aux=*C;
+    enlace anterior=*C;
+    enlace basura;
+    int cont=1;  
+    while(aux!=NULL){
+        if(cont%2==0){
+            basura=aux;
+            aux=aux->siguiente;
+            free(basura);
+            anterior->siguiente=aux;
+            cont++;
+        }
+        anterior=aux;
+        if(aux!=NULL && cont%2==1){
+            aux=aux->siguiente;
+            cont++;
+        }
+    }
 }
 
 /* Funciones que determina el largo de la LLS o cantidad de nodos con info X de la LLS*/
